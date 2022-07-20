@@ -5,10 +5,11 @@ namespace PersonalFinanceApp.Database.Repositories
 {
     public interface ITransactionRepository
     {        
-        // Task<ProductEntity> Create(ProductEntity product);
+        Task<TransactionEntity> Create(TransactionEntity transaction);
 
-        // Task<ProductEntity> Get(string productCode);
+        Task<TransactionEntity> Get(int Id);
+       Task<List<TransactionEntity>> Import(List<TransactionEntity> transactions);
 
-        // Task<bool> Delete(string productCode);
+        Task<bool> Delete(int Id);
     }
 }

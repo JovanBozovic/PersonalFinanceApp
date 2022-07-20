@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp.csproj": {}
+    "C:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp\\PersonalFinanceApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp.csproj": {
+    "C:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp\\PersonalFinanceApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp.csproj",
+        "projectUniqueName": "C:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp\\PersonalFinanceApp.csproj",
         "projectName": "PersonalFinanceApp",
-        "projectPath": "C:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp.csproj",
+        "projectPath": "C:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp\\PersonalFinanceApp.csproj",
         "packagesPath": "C:\\Users\\Instructor\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\obj\\",
+        "outputPath": "C:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Instructor\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -40,15 +40,43 @@
           "dependencies": {
             "AutoMapper": {
               "target": "Package",
-              "version": "[11.0.1, )"
+              "version": "[10.1.1, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.1.1, )"
+            },
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[28.0.1, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.7, )"
             },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[6.0.7, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
             "Npgsql": {
               "target": "Package",
               "version": "[6.0.5, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[6.0.5, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[6.0.1, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

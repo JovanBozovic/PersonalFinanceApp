@@ -7,7 +7,7 @@ namespace PersonalFinanceApp.Database.Configurations
     {
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<TransactionEntity> builder)
         {
-            // builder.ToTable("transactions");
+            builder.ToTable("transactions1");
 
             builder.HasKey(x => x.Id);
 

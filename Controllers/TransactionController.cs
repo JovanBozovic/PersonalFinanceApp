@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using PersonalFinanceApp.Commands;
 using PersonalFinanceApp.Services;
 
 namespace PersonalFinanceApp.Controllers
 {
-    [Route("/transactions/import")]
+
     [ApiController]
     public class TransactionController : ControllerBase
     {
@@ -27,29 +29,39 @@ namespace PersonalFinanceApp.Controllers
         //     return Ok(result);
         // }
 
-        // [HttpGet("{productCode}")]
-        // public async Task<IActionResult> GetProduct([FromRoute] string productCode)
-        // {
-        //     var product = await _productsService.GetProduct(productCode);
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetProduct([FromRoute] int Id)
+        {
+            var transaction = await _transactionService.GetTransaction(Id);
 
-        //     if (product == null)
-        //     {
-        //         return NotFound();
-        //     }
+            if (transaction == null)
+            {
+                return NotFound();
+            }
 
-        //     return Ok(product);
-        // }
+            return Ok(transaction);
+        }
+        
+        [HttpPost("api/transactions/import")]
+        public async Task<IActionResult> ImportTransactions(){
+            var transactions = await _transactionService.ImportTransactions();
+            // if (transactions == null)
+            // {
+            //     return BadRequest();
+            // }
+            return Ok(transactions);
+        }
 
-        // [HttpPost]
-        // public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command)
-        // {
-        //     var result = await _productsService.CreateProduct(command);
-        //     if (result == null)
-        //     {
-        //         return BadRequest();
-        //     }
-        //     return Ok(result);
-        // }
+        [HttpPost("api/transactions/create")]
+        public async Task<IActionResult> CreateTransaction(CreateTransactionCommand command)
+        {
+            var result = await _transactionService.CreateTransaction(command);
+            if (result == null)
+            {
+                return BadRequest();
+            }
+            return Ok(result);
+        }
 
         // [HttpDelete("{productCode}")]
         // public async Task<IActionResult> DeleteProduct([FromRoute] string productCode)

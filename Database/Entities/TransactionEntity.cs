@@ -15,7 +15,7 @@ namespace PersonalFinanceApp.Database.Entities
 
         public string Currency { get; set; }
 
-        public int Mcc { get; set; }
+        public int? Mcc { get; set; }
         public String Kind { get; set; }
 
     }

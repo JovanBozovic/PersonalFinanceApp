@@ -21,6 +21,18 @@ namespace PersonalFinanceApp.Database.Repositories
 
             return transaction;
         }
+        public async Task<List<TransactionEntity>> Import(List<TransactionEntity> transactions)
+        {
+
+            foreach (var transaction in transactions)
+            {
+                _dbContext.Transactions.Add(transaction);
+            }
+            await _dbContext.SaveChangesAsync();
+
+            return transactions;
+        }
+       
 
         public async Task<bool> Delete(int Id)
         {
@@ -40,6 +52,8 @@ namespace PersonalFinanceApp.Database.Repositories
         {
             return await _dbContext.Transactions.FirstOrDefaultAsync(p => p.Id == Id);
         }
+
+
 
         // public async Task<PagedSortedList<ProductEntity>> List(int page = 1, int pageSize = 5, string sortBy = null, SortOrder sortOrder = SortOrder.Asc)
         // {

@@ -19,9 +19,9 @@ namespace PersonalFinanceApp.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.UseSerialColumns();
         }
+
+        
     }
 }
