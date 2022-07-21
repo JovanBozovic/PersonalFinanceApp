@@ -26,6 +26,6 @@ namespace PersonalFinanceApp.Commands
 
         public string Kind { get; set; }
         [ForeignKey("code")]
-        public int catcode {get;set;}
+        public int catcode { get; set; }
     }
 }

@@ -10,6 +10,10 @@ namespace PersonalFinanceApp.Database.Configurations
             builder.ToTable("categories");
 
             builder.HasKey(x => x.code);
+
+            builder.Property(x=>x.code).IsRequired();
+            builder.Property(x=>x.parent_code);
+            builder.Property(x=>x.name).IsRequired();
             // builder.
 
             // builder.Property(x => x.Id).IsRequired().HasMaxLength(64);

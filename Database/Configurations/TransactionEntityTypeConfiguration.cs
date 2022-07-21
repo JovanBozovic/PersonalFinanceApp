@@ -12,6 +12,7 @@ namespace PersonalFinanceApp.Database.Configurations
             builder.HasKey(x => x.Id);
             // builder.HasAlternateKey
             // builder.HasOne(x => x.Catcode);
+            
 
             builder.Property(x => x.Id).IsRequired().HasMaxLength(64);
             builder.Property(x => x.Beneficiary_Name).HasMaxLength(64);

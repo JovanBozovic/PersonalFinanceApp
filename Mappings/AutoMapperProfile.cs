@@ -11,13 +11,16 @@ namespace PersonalFinanceApp.Mappings
         {
             CreateMap<TransactionEntity, Models.Transaction>()
                 .ForMember(d => d.Id, opts => opts.MapFrom(s => s.Id));
-            
-            
+
+            CreateMap<CategoryEntity, Models.Category>()
+               .ForMember(d => d.code, opts => opts.MapFrom(s => s.code));
+
+
             // CreateMap<List<Models.Transaction>,List<TransactionEntity>>()
             //     .ForMember(d => d["id"], opts => opts.MapFrom(s => s["id"]));
 
             CreateMap<PagedSortedList<TransactionEntity>, PagedSortedList<Models.Transaction>>();
-            
+
             CreateMap<CreateTransactionCommand, TransactionEntity>()
                 .ForMember(d => d.Id, opts => opts.MapFrom(s => s.Id));
         }
