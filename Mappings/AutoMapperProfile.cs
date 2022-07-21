@@ -16,7 +16,7 @@ namespace PersonalFinanceApp.Mappings
             // CreateMap<List<Models.Transaction>,List<TransactionEntity>>()
             //     .ForMember(d => d["id"], opts => opts.MapFrom(s => s["id"]));
 
-            // CreateMap<PagedSortedList<ProductEntity>, PagedSortedList<Models.Product>>();
+            CreateMap<PagedSortedList<TransactionEntity>, PagedSortedList<Models.Transaction>>();
             
             CreateMap<CreateTransactionCommand, TransactionEntity>()
                 .ForMember(d => d.Id, opts => opts.MapFrom(s => s.Id));

@@ -26,6 +26,7 @@ namespace PersonalFinanceApp.Database.Repositories
 
             foreach (var transaction in transactions)
             {
+                if(!_dbContext.Transactions.Any(o=>o.Id==transaction.Id))
                 _dbContext.Transactions.Add(transaction);
             }
             await _dbContext.SaveChangesAsync();
@@ -55,49 +56,77 @@ namespace PersonalFinanceApp.Database.Repositories
 
 
 
-        // public async Task<PagedSortedList<ProductEntity>> List(int page = 1, int pageSize = 5, string sortBy = null, SortOrder sortOrder = SortOrder.Asc)
-        // {
-        //     var query = _dbContext.Products.AsQueryable();
+        public async Task<PagedSortedList<TransactionEntity>> ListTransactions(int page = 1, int pageSize = 5, string sortBy = null, SortingOrder sortOrder = SortingOrder.Asc,List<string> transaction_kinds=null ,DateTime? StartDate=null,DateTime? EndDate=null)
+        {
+            var query = _dbContext.Transactions.AsQueryable();
 
-        //     var totalCount = query.Count();
+            // var query= query2;
+            if(StartDate!=DateTime.MinValue){
+                query=query.Where(q=>q.Date>=StartDate);
+            };
+            Console.WriteLine("TRANSATION KINDS====="+StartDate);
+            if(EndDate!=DateTime.MinValue){
+                query=query.Where(q=>q.Date<=EndDate);
+            }
+            Console.WriteLine("TRANSATION KINDS====="+EndDate);
+            if(transaction_kinds.Any()){
+                query=query.Where(q=>transaction_kinds.Contains(q.Kind));
+            }
+            Console.WriteLine("TRANSATION KINDS====="+transaction_kinds);
 
-        //     var totalPages = (int)Math.Ceiling(totalCount * 1.0 / pageSize);
+            var totalCount = query.Count();
 
-        //     if (!string.IsNullOrEmpty(sortBy))
-        //     {
-        //         switch (sortBy)
-        //         {
-        //             case "code":
-        //                 query = sortOrder == SortOrder.Asc ? query.OrderBy(x => x.Code) : query.OrderByDescending(x => x.Code);
-        //                 break;
-        //             case "description":
-        //                 query = sortOrder == SortOrder.Asc ? query.OrderBy(x => x.Description) : query.OrderByDescending(x => x.Description);
-        //                 break;
-        //             default:
-        //             case "name":
-        //                 query = sortOrder == SortOrder.Asc ? query.OrderBy(x => x.Name) : query.OrderByDescending(x => x.Name);
-        //                 break;
-        //         }
-        //     } 
-        //     else
-        //     {
-        //         query = query.OrderBy(p => p.Name);
-        //     }
+            var totalPages = (int)Math.Ceiling(totalCount * 1.0 / pageSize);
 
-        //     query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                switch (sortBy)
+                {
+                    case "date":
+                        query = sortOrder == SortingOrder.Asc ? query.OrderBy(x => x.Date) : query.OrderByDescending(x => x.Date);
+                        break;
+                    case "description":
+                        query = sortOrder == SortingOrder.Asc ? query.OrderBy(x => x.Description) : query.OrderByDescending(x => x.Description);
+                        break;
+                    case "beneficiary_name":
+                        query = sortOrder == SortingOrder.Asc ? query.OrderBy(x => x.Description) : query.OrderByDescending(x => x.Beneficiary_Name);
+                        break;
+                    case "mcc":
+                        query = sortOrder == SortingOrder.Asc ? query.OrderBy(x => x.Description) : query.OrderByDescending(x => x.Mcc);
+                        break;
+                    case "currency":
+                        query = sortOrder == SortingOrder.Asc ? query.OrderBy(x => x.Description) : query.OrderByDescending(x => x.Currency);
+                        break;
+                    case "kind":
+                        query = sortOrder == SortingOrder.Asc ? query.OrderBy(x => x.Description) : query.OrderByDescending(x => x.Kind);
+                        break;
+                    case "direction":
+                        query = sortOrder == SortingOrder.Asc ? query.OrderBy(x => x.Description) : query.OrderByDescending(x => x.Direction);
+                        break;
+                    case "amount":
+                        query = sortOrder == SortingOrder.Asc ? query.OrderBy(x => x.Description) : query.OrderByDescending(x => x.Amount);
+                        break;
+                    default:
+                    case "id":
+                        query = sortOrder == SortingOrder.Asc ? query.OrderBy(x => x.Id) : query.OrderByDescending(x => x.Id);
+                        break;
+                }
+            }
 
-        //     var items = await query.ToListAsync();
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
 
-        //     return new PagedSortedList<ProductEntity>
-        //     {
-        //         Page = page,
-        //         PageSize = pageSize,
-        //         TotalCount = totalCount,
-        //         TotalPages = totalPages,
-        //         Items = items,
-        //         SortBy = sortBy,
-        //         SortOrder = sortOrder
-        //     };
-        // }
+            var items = await query.ToListAsync();
+
+            return new PagedSortedList<TransactionEntity>
+            {
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                Items = items,
+                SortBy = sortBy,
+                SortingOrder = sortOrder
+            };
+        }
     }
 }

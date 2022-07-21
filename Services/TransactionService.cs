@@ -75,12 +75,12 @@ namespace PersonalFinanceApp.Services
         }
 
 
-        //     public async Task<PagedSortedList<Models.Product>> GetProducts(int page = 1, int pageSize = 10, string sortBy = null, SortOrder sortOrder = SortOrder.Asc)
-        //     {
-        //         var result = await _productsRepository.List(page, pageSize, sortBy, sortOrder);
+            public async Task<PagedSortedList<Models.Transaction>> GetTransactions(int page = 1, int pageSize = 10, string sortBy = null, SortingOrder sortOrder = SortingOrder.Asc,List<string> transaction_kinds=null,DateTime? StartDate=null,DateTime? EndDate=null)
+            {
+                var result = await _transactionRepository.ListTransactions(page, pageSize, sortBy, sortOrder,transaction_kinds,StartDate,EndDate);
 
-        //         return _mapper.Map<PagedSortedList<Models.Product>>(result);
-        //     }
-        // }
+                return _mapper.Map<PagedSortedList<Models.Transaction>>(result);
+            }
+        
     }
 }

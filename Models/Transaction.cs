@@ -12,7 +12,7 @@ namespace PersonalFinanceApp.Models
 
         public string Direction { get; set; }
 
-        public float Amount { get; set; }
+        public double Amount { get; set; }
 
         public string Description { get; set; }
 
@@ -21,5 +21,6 @@ namespace PersonalFinanceApp.Models
         public int Mcc { get; set; }
 
         public string Kind { get; set; }
+        public int Catcode {get;set;}
     }
 }

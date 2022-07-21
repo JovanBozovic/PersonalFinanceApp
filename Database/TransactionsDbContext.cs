@@ -4,15 +4,16 @@ using System.Reflection;
 
 namespace PersonalFinanceApp.Database
 {
-    public class TransactionsDbContext: DbContext
+    public class TransactionsDbContext : DbContext
     {
         public DbSet<TransactionEntity> Transactions { get; set; }
+        public DbSet<CategoryEntity> Categories { get; set; }
 
         public TransactionsDbContext()
         {
         }
 
-        public TransactionsDbContext(DbContextOptions options): base(options)
+        public TransactionsDbContext(DbContextOptions options) : base(options)
         {
         }
 
@@ -20,8 +21,14 @@ namespace PersonalFinanceApp.Database
         {
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             modelBuilder.UseSerialColumns();
+
+            // {
+            //     modelBuilder.Entity<TransactionEntity>()
+            //         .HasMany(b => b.Catcode)
+            //         .WithOne();
+            // }
         }
 
-        
+
     }
 }

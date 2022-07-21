@@ -17,6 +17,7 @@ namespace PersonalFinanceApp.Database.ClassMaps
         Map(m=>m.Currency).Name("currency");
         Map(m=>m.Mcc).Name("mcc");
         Map(m=>m.Kind).Name("kind");
+        Map(m=>m.Catcode).Name("catcode");
     // id,beneficiary-name,date,direction,amount,description,currency,mcc,kind
         }
 

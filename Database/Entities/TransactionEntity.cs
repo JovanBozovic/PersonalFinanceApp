@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace PersonalFinanceApp.Database.Entities
 {
     public class TransactionEntity
@@ -17,6 +19,8 @@ namespace PersonalFinanceApp.Database.Entities
 
         public int? Mcc { get; set; }
         public String Kind { get; set; }
+        [ForeignKey("code")]
+        public int Catcode {get;set;}
 
     }
 }

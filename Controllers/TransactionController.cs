@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using PersonalFinanceApp.Commands;
 using PersonalFinanceApp.Services;
+using PersonalFinanceApp.Models;
 
 namespace PersonalFinanceApp.Controllers
 {
@@ -19,15 +20,15 @@ namespace PersonalFinanceApp.Controllers
             _logger = logger;
         }
 
-        // [HttpGet]
-        // public async Task<IActionResult> GetTransactions([FromQuery] int? page, [FromQuery] int? pageSize, [FromQuery] string sortBy, [FromQuery] SortOrder sortOrder)
-        // {
-        //     page = page ?? 1;
-        //     pageSize = pageSize ?? 10;
-        //     _logger.LogInformation("Returning {page}. page of products", page);
-        //     var result = await _transactionService.GetTransactions(page.Value, pageSize.Value, sortBy, sortOrder);
-        //     return Ok(result);
-        // }
+        [HttpGet("api/transactions")]
+        public async Task<IActionResult> GetTransactions([FromQuery] int? page, [FromQuery] int? pageSize, [FromQuery] string sortBy, [FromQuery] SortingOrder sortingOrder,[FromQuery]List<string> transaction_kinds,[FromQuery] DateTime StartDate,[FromQuery] DateTime EndDate)
+        {
+            page = page ?? 1;
+            pageSize = pageSize ?? 10;
+            _logger.LogInformation("Returning {page}. page of products", page);
+            var result = await _transactionService.GetTransactions(page.Value, pageSize.Value, sortBy, sortingOrder,transaction_kinds,StartDate,EndDate);
+            return Ok(result);
+        }
 
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetProduct([FromRoute] int Id)
