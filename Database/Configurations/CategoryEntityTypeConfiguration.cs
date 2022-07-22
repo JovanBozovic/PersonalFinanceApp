@@ -1,3 +1,5 @@
+#nullable disable
+
 using Microsoft.EntityFrameworkCore;
 using PersonalFinanceApp.Database.Entities;
 

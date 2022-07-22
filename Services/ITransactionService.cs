@@ -1,3 +1,5 @@
+#nullable disable
+
 using PersonalFinanceApp.Commands;
 using PersonalFinanceApp.Models;
 
@@ -10,5 +12,6 @@ namespace PersonalFinanceApp.Services
         Task<bool> ImportTransactions();
         Task<Models.Transaction> CreateTransaction(CreateTransactionCommand command);
         Task<bool> DeleteTransaction(int Id);
+        Task<Models.Transaction> CategorizeTransaction(int Id,string Catcode,CreateTransactionCommand command);
     }
 }

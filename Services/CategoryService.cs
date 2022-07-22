@@ -1,3 +1,5 @@
+#nullable disable
+
 using AutoMapper;
 using CsvHelper;
 using PersonalFinanceApp.Commands;
@@ -28,10 +30,11 @@ namespace PersonalFinanceApp.Services
             {
                 using (var csvReader = new CsvReader(streamReader, System.Globalization.CultureInfo.InvariantCulture))
                 {
+                    // csvReader.Configuration.HeaderValidated=null;
                     csvReader.Context.RegisterClassMap<CategoryClassMap>();
                     var categoryRecords = csvReader.GetRecords<CategoryEntity>().ToList();
                     Console.WriteLine(categoryRecords);
-                    var transactionEntity = await _categoryRepository.Import(categoryRecords);
+                    var categoryEntity = await _categoryRepository.Import(categoryRecords);
                     return true;
                 }
 
@@ -66,17 +69,17 @@ namespace PersonalFinanceApp.Services
         //     throw new NotImplementedException();
         // }
 
-        // public async Task<Models.Transaction> GetTransaction(int Id)
-        // {
-        //     var transactionEntity = await _transactionRepository.Get(Id);
+        public async Task<Models.Category> GetCategories(string code)
+        {
+            var categoryEntity = await _categoryRepository.Get(code);
 
-        //     if (transactionEntity == null)
-        //     {
-        //         return null;
-        //     }
+            if (categoryEntity == null)
+            {
+                return null;
+            }
 
-        //     return _mapper.Map<Models.Transaction>(transactionEntity);
-        // }
+            return _mapper.Map<Models.Category>(categoryEntity);
+        }
 
 
 

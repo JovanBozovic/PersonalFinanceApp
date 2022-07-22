@@ -1,3 +1,5 @@
+#nullable disable
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -52,6 +54,14 @@ namespace PersonalFinanceApp.Controllers
             // }
             return Ok(transactions);
         }
+
+        [HttpPost("api/transactions/{id}/categorize")]
+        public async Task<IActionResult> CategorizeTransaction([FromRoute]int Id,[FromBody]string Catcode,CreateTransactionCommand command)
+        {
+            var result = await _transactionService.CategorizeTransaction(Id,Catcode,command);
+            return Ok(result);
+        }
+
 
         [HttpPost("api/transactions/create")]
         public async Task<IActionResult> CreateTransaction(CreateTransactionCommand command)

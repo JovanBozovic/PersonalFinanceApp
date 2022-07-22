@@ -1,3 +1,5 @@
+#nullable disable
+
 using AutoMapper;
 using CsvHelper;
 using PersonalFinanceApp.Commands;
@@ -63,6 +65,7 @@ namespace PersonalFinanceApp.Services
             {
                 using (var csvReader = new CsvReader(streamReader, System.Globalization.CultureInfo.InvariantCulture))
                 {
+                    // csvReader.Configuration.HeaderValidated=null;
                     csvReader.Context.RegisterClassMap<TransactionClassMap>();
                     var transactionRecords = csvReader.GetRecords<TransactionEntity>().ToList();
                     Console.WriteLine(transactionRecords);
@@ -81,6 +84,19 @@ namespace PersonalFinanceApp.Services
 
                 return _mapper.Map<PagedSortedList<Models.Transaction>>(result);
             }
-        
+
+        public async Task<Transaction> CategorizeTransaction(int Id,string Catcode,CreateTransactionCommand command)
+        {
+            var entity = _mapper.Map<TransactionEntity>(command);
+
+            var existingTransaction = await _transactionRepository.Get(command.Id);
+            if (existingTransaction != null)
+            {
+                return null;
+            }
+            var result = await _transactionRepository.Create(entity);
+
+            return _mapper.Map<Models.Transaction>(result);
+        }
     }
 }

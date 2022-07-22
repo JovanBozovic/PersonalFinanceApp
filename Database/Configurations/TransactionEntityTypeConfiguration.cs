@@ -1,3 +1,5 @@
+#nullable disable
+
 using Microsoft.EntityFrameworkCore;
 using PersonalFinanceApp.Database.Entities;
 
@@ -12,7 +14,9 @@ namespace PersonalFinanceApp.Database.Configurations
             builder.HasKey(x => x.Id);
             // builder.HasAlternateKey
             // builder.HasOne(x => x.Catcode);
-            
+            // builder.
+            builder.HasOne(x => x.category).WithMany(x=>x.transactions).HasForeignKey(x=>x.Catcode).OnDelete(DeleteBehavior.Cascade);
+
 
             builder.Property(x => x.Id).IsRequired().HasMaxLength(64);
             builder.Property(x => x.Beneficiary_Name).HasMaxLength(64);
@@ -23,6 +27,8 @@ namespace PersonalFinanceApp.Database.Configurations
             builder.Property(x => x.Currency).IsRequired().HasMaxLength(3);
             builder.Property(x => x.Mcc).HasMaxLength(4);
             builder.Property(x => x.Kind).IsRequired();
+            builder.Property(x => x.Catcode);
+            // builder.Property(x => x.category);
 
         }
     }

@@ -12,7 +12,7 @@ using PersonalFinanceApp.Database;
 namespace PersonalFinanceApp.Migrations
 {
     [DbContext(typeof(TransactionsDbContext))]
-    [Migration("20220720125842_InitialMigration")]
+    [Migration("20220722093755_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,22 @@ namespace PersonalFinanceApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseSerialColumns(modelBuilder);
+
+            modelBuilder.Entity("PersonalFinanceApp.Database.Entities.CategoryEntity", b =>
+                {
+                    b.Property<string>("code")
+                        .HasColumnType("text");
+
+                    b.Property<string>("name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("parent_code")
+                        .HasColumnType("text");
+
+                    b.HasKey("code");
+
+                    b.ToTable("Categories");
+                });
 
             modelBuilder.Entity("PersonalFinanceApp.Database.Entities.TransactionEntity", b =>
                 {
@@ -36,6 +52,9 @@ namespace PersonalFinanceApp.Migrations
                         .HasColumnType("real");
 
                     b.Property<string>("Beneficiary_Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Catcode")
                         .HasColumnType("text");
 
                     b.Property<string>("Currency")

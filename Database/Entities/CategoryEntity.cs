@@ -1,11 +1,13 @@
+#nullable disable
+
 namespace PersonalFinanceApp.Database.Entities
 {
     public class CategoryEntity
     {
-
-        public int code { get; set; }
-        public int parent_code { get; set; }
+        public string code { get; set; }
+        public string parent_code { get; set; }
         public string name { get; set; }
+        public ICollection<TransactionEntity> transactions{get;set;}
 
     }
 }

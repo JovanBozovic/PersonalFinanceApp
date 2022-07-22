@@ -1,3 +1,5 @@
+#nullable disable
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -28,7 +30,7 @@ namespace PersonalFinanceApp.Controllers
             //     return BadRequest();
             // }
             return Ok(categories);
-        // }
+        }
 
         // [HttpGet("api/transactions")]
         // public async Task<IActionResult> GetTransactions([FromQuery] int? page, [FromQuery] int? pageSize, [FromQuery] string sortBy, [FromQuery] SortingOrder sortingOrder,[FromQuery]List<string> transaction_kinds,[FromQuery] DateTime StartDate,[FromQuery] DateTime EndDate)
@@ -40,18 +42,18 @@ namespace PersonalFinanceApp.Controllers
         //     return Ok(result);
         // }
 
-        // [HttpGet("{Id}")]
-        // public async Task<IActionResult> GetProduct([FromRoute] int Id)
-        // {
-        //     var transaction = await _transactionService.GetTransaction(Id);
+        [HttpGet("api/categories/{code}")]
+        public async Task<IActionResult> GetCategories([FromRoute] string code)
+        {
+            var category = await _categoryService.GetCategories(code);
 
-        //     if (transaction == null)
-        //     {
-        //         return NotFound();
-        //     }
+            if (category == null)
+            {
+                return NotFound();
+            }
 
-        //     return Ok(transaction);
-        // }
+            return Ok(category);
+        }
         
 
 
@@ -77,5 +79,4 @@ namespace PersonalFinanceApp.Controllers
         //     return Ok();
         // }
     }
-}
 }

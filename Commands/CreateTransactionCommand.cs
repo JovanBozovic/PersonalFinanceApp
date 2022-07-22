@@ -1,3 +1,5 @@
+#nullable disable
+
 using PersonalFinanceApp.Database.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -26,6 +28,6 @@ namespace PersonalFinanceApp.Commands
 
         public string Kind { get; set; }
         [ForeignKey("code")]
-        public int catcode { get; set; }
+        public string Catcode { get; set; }
     }
 }

@@ -1,4 +1,6 @@
 
+#nullable disable
+
 using CsvHelper.Configuration;
 using PersonalFinanceApp.Database.Entities;
 using PersonalFinanceApp.Models;
@@ -17,7 +19,7 @@ namespace PersonalFinanceApp.Database.ClassMaps
         Map(m=>m.Currency).Name("currency");
         Map(m=>m.Mcc).Name("mcc");
         Map(m=>m.Kind).Name("kind");
-        Map(m=>m.Catcode).Name("catcode");
+        Map(m=>m.Catcode).Name("catcode").Optional();
     // id,beneficiary-name,date,direction,amount,description,currency,mcc,kind
         }
 

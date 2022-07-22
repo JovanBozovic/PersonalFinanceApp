@@ -1,3 +1,5 @@
+#nullable disable
+
 using PersonalFinanceApp.Database.Entities;
 
 namespace PersonalFinanceApp.Models
@@ -21,6 +23,6 @@ namespace PersonalFinanceApp.Models
         public int Mcc { get; set; }
 
         public string Kind { get; set; }
-        public int Catcode {get;set;}
+        public string Catcode {get;set;}
     }
 }

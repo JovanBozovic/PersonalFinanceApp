@@ -1,3 +1,5 @@
+#nullable disable
+
 namespace PersonalFinanceApp.Models
 {
     public class PagedSortedList<T>

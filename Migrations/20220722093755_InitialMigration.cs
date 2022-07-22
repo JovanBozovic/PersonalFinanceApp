@@ -11,6 +11,19 @@ namespace PersonalFinanceApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    code = table.Column<string>(type: "text", nullable: false),
+                    parent_code = table.Column<string>(type: "text", nullable: true),
+                    name = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.code);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transactions",
                 columns: table => new
                 {
@@ -23,7 +36,8 @@ namespace PersonalFinanceApp.Migrations
                     Description = table.Column<string>(type: "text", nullable: true),
                     Currency = table.Column<string>(type: "text", nullable: true),
                     Mcc = table.Column<int>(type: "integer", nullable: true),
-                    Kind = table.Column<string>(type: "text", nullable: true)
+                    Kind = table.Column<string>(type: "text", nullable: true),
+                    Catcode = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -33,6 +47,9 @@ namespace PersonalFinanceApp.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Categories");
+
             migrationBuilder.DropTable(
                 name: "Transactions");
         }

@@ -1,7 +1,10 @@
+#nullable disable
+
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PersonalFinanceApp.Database.Entities
 {
+
     public class TransactionEntity
     {
         public int Id { get; set; }
@@ -20,7 +23,8 @@ namespace PersonalFinanceApp.Database.Entities
         public int? Mcc { get; set; }
         public String Kind { get; set; }
         [ForeignKey("code")]
-        public int Catcode {get;set;}
+        public string Catcode {get;set;}
+        public CategoryEntity category{get;set;}
 
     }
 }

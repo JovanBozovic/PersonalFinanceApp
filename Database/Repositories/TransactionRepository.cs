@@ -1,3 +1,5 @@
+#nullable disable
+
 using Microsoft.EntityFrameworkCore;
 using PersonalFinanceApp.Database.Entities;
 using PersonalFinanceApp.Models;
@@ -127,6 +129,21 @@ namespace PersonalFinanceApp.Database.Repositories
                 SortBy = sortBy,
                 SortingOrder = sortOrder
             };
+        }
+
+        public async Task<TransactionEntity> Categorize(TransactionEntity transaction,string Catcode)
+        {
+            if(_dbContext.Transactions.Any(o=>o.Id==transaction.Id))
+            {
+                var categorizedTransaction=transaction;
+                categorizedTransaction.Catcode=Catcode;
+                _dbContext.Transactions.Add(categorizedTransaction);
+            }
+             
+
+            await _dbContext.SaveChangesAsync();
+
+            return transaction;
         }
     }
 }

@@ -1,3 +1,5 @@
+#nullable disable
+
 using Microsoft.EntityFrameworkCore;
 using PersonalFinanceApp.Database.Entities;
 using System.Reflection;
@@ -22,11 +24,10 @@ namespace PersonalFinanceApp.Database
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             modelBuilder.UseSerialColumns();
 
-            // {
-            //     modelBuilder.Entity<TransactionEntity>()
-            //         .HasMany(b => b.Catcode)
-            //         .WithOne();
-            // }
+            {
+                modelBuilder.Entity<TransactionEntity>();
+                modelBuilder.Entity<CategoryEntity>().HasKey(x=>x.code);
+            }
         }
 
 

@@ -1,3 +1,5 @@
+#nullable disable
+
 using AutoMapper;
 using PersonalFinanceApp.Commands;
 using PersonalFinanceApp.Database.Entities;

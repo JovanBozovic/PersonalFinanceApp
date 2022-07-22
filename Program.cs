@@ -1,3 +1,5 @@
+#nullable disable
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic.FileIO;
 using Npgsql;
@@ -42,6 +44,8 @@ namespace PersonalFinanceApp
 
             builder.Services.AddScoped<ITransactionService, TransactionService>();
             builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
 
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
