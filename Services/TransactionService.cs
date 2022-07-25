@@ -2,6 +2,7 @@
 
 using AutoMapper;
 using CsvHelper;
+using Microsoft.AspNetCore.Mvc;
 using PersonalFinanceApp.Commands;
 using PersonalFinanceApp.Database.ClassMaps;
 using PersonalFinanceApp.Database.Entities;
@@ -78,25 +79,37 @@ namespace PersonalFinanceApp.Services
         }
 
 
-            public async Task<PagedSortedList<Models.Transaction>> GetTransactions(int page = 1, int pageSize = 10, string sortBy = null, SortingOrder sortOrder = SortingOrder.Asc,List<string> transaction_kinds=null,DateTime? StartDate=null,DateTime? EndDate=null)
-            {
-                var result = await _transactionRepository.ListTransactions(page, pageSize, sortBy, sortOrder,transaction_kinds,StartDate,EndDate);
-
-                return _mapper.Map<PagedSortedList<Models.Transaction>>(result);
-            }
-
-        public async Task<Transaction> CategorizeTransaction(int Id,string Catcode,CreateTransactionCommand command)
+        public async Task<PagedSortedList<Models.Transaction>> GetTransactions(int page = 1, int pageSize = 10, string sortBy = null, SortingOrder sortOrder = SortingOrder.Asc, List<string> transaction_kinds = null, DateTime? StartDate = null, DateTime? EndDate = null)
         {
-            var entity = _mapper.Map<TransactionEntity>(command);
+            var result = await _transactionRepository.ListTransactions(page, pageSize, sortBy, sortOrder, transaction_kinds, StartDate, EndDate);
 
-            var existingTransaction = await _transactionRepository.Get(command.Id);
-            if (existingTransaction != null)
+            return _mapper.Map<PagedSortedList<Models.Transaction>>(result);
+        }
+
+        public async Task<Transaction> CategorizeTransaction(int Id, string Catcode)
+        {
+            // var entity = _mapper.Map<TransactionEntity>(Id);
+
+            var existingTransaction = await _transactionRepository.Get(Id);
+            if (existingTransaction == null)
             {
                 return null;
             }
-            var result = await _transactionRepository.Create(entity);
+            var result = await _transactionRepository.Categorize(existingTransaction, Catcode);
 
             return _mapper.Map<Models.Transaction>(result);
+        }
+
+        public async Task<CategorySpendingList> GetAnalytics(DateTime startDate, DateTime endDate, string direction, string Catcode=null)
+        {
+            return await _transactionRepository.GetAnalytics(startDate, endDate, direction, Catcode);
+        }
+
+        public async Task<bool> SplitTransaction(string Id, SplitTransactionCommand command)
+        {
+            var result = await _transactionRepository.SplitTransaction(Id, command);
+            
+            return result;
         }
     }
 }

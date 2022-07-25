@@ -52,6 +52,7 @@ namespace PersonalFinanceApp
             builder.Services.AddDbContext<TransactionsDbContext>(options =>
             {
                 options.UseNpgsql(builder.Configuration.GetConnectionString("FinanceDb"));
+                  options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
             builder.Services.AddControllers().AddJsonOptions(options =>

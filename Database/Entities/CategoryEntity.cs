@@ -8,6 +8,7 @@ namespace PersonalFinanceApp.Database.Entities
         public string parent_code { get; set; }
         public string name { get; set; }
         public ICollection<TransactionEntity> transactions{get;set;}
+        public List<SplitTransactionEntity> SplitTransactions{get;set;}
 
     }
 }

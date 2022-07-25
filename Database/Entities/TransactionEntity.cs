@@ -1,6 +1,7 @@
 #nullable disable
 
 using System.ComponentModel.DataAnnotations.Schema;
+using PersonalFinanceApp.Models;
 
 namespace PersonalFinanceApp.Database.Entities
 {
@@ -8,7 +9,7 @@ namespace PersonalFinanceApp.Database.Entities
     public class TransactionEntity
     {
         public int Id { get; set; }
-        public string Beneficiary_Name  { get; set; }
+        public string Beneficiary_Name { get; set; }
 
         public DateTime Date { get; set; }
 
@@ -23,8 +24,9 @@ namespace PersonalFinanceApp.Database.Entities
         public int? Mcc { get; set; }
         public String Kind { get; set; }
         [ForeignKey("code")]
-        public string Catcode {get;set;}
-        public CategoryEntity category{get;set;}
+        public string Catcode { get; set; }
+        public CategoryEntity category { get; set; }
+        public List<SplitTransactionEntity> SplitTransactions { get; set;}
 
     }
 }

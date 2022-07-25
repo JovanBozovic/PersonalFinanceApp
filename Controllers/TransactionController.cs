@@ -23,12 +23,12 @@ namespace PersonalFinanceApp.Controllers
         }
 
         [HttpGet("api/transactions")]
-        public async Task<IActionResult> GetTransactions([FromQuery] int? page, [FromQuery] int? pageSize, [FromQuery] string sortBy, [FromQuery] SortingOrder sortingOrder,[FromQuery]List<string> transaction_kinds,[FromQuery] DateTime StartDate,[FromQuery] DateTime EndDate)
+        public async Task<IActionResult> GetTransactions([FromQuery] int? page, [FromQuery] int? pageSize, [FromQuery] string sortBy, [FromQuery] SortingOrder sortingOrder, [FromQuery] List<string> transaction_kinds, [FromQuery] DateTime StartDate, [FromQuery] DateTime EndDate)
         {
             page = page ?? 1;
             pageSize = pageSize ?? 10;
             _logger.LogInformation("Returning {page}. page of products", page);
-            var result = await _transactionService.GetTransactions(page.Value, pageSize.Value, sortBy, sortingOrder,transaction_kinds,StartDate,EndDate);
+            var result = await _transactionService.GetTransactions(page.Value, pageSize.Value, sortBy, sortingOrder, transaction_kinds, StartDate, EndDate);
             return Ok(result);
         }
 
@@ -44,9 +44,10 @@ namespace PersonalFinanceApp.Controllers
 
             return Ok(transaction);
         }
-        
+
         [HttpPost("api/transactions/import")]
-        public async Task<IActionResult> ImportTransactions(){
+        public async Task<IActionResult> ImportTransactions()
+        {
             var transactions = await _transactionService.ImportTransactions();
             // if (transactions == null)
             // {
@@ -55,10 +56,10 @@ namespace PersonalFinanceApp.Controllers
             return Ok(transactions);
         }
 
-        [HttpPost("api/transactions/{id}/categorize")]
-        public async Task<IActionResult> CategorizeTransaction([FromRoute]int Id,[FromBody]string Catcode,CreateTransactionCommand command)
+        [HttpPost("api/transactions/{Id}/categorize")]
+        public async Task<IActionResult> CategorizeTransaction([FromRoute] int Id, [FromQuery] string Catcode)
         {
-            var result = await _transactionService.CategorizeTransaction(Id,Catcode,command);
+            var result = await _transactionService.CategorizeTransaction(Id, Catcode);
             return Ok(result);
         }
 
@@ -73,16 +74,20 @@ namespace PersonalFinanceApp.Controllers
             }
             return Ok(result);
         }
+        [HttpGet("api/spending-analytics")]
+        public async Task<ActionResult<CategorySpendingList>> GetAnalytics([FromQuery] DateTime startDate,[FromQuery] DateTime endDate,[FromQuery] string Catcode=null,[FromQuery] string direction=null)
+        {
+            var result = await _transactionService.GetAnalytics(startDate, endDate, direction, Catcode);
+            return Ok(result);
+        }
 
-        // [HttpDelete("{productCode}")]
-        // public async Task<IActionResult> DeleteProduct([FromRoute] string productCode)
-        // {
-        //     var result = await _productsService.DeleteProduct(productCode);
-        //     if (!result)
-        //     {
-        //         return NotFound();
-        //     }
-        //     return Ok();
-        // }
+        [HttpPost("api/transactions/{Id}/split")]
+        public async Task<ActionResult>SplitTransaction([FromRoute] string Id, [FromBody] SplitTransactionCommand splitTransactionCommand)
+        {
+            var result=await _transactionService.SplitTransaction(Id, splitTransactionCommand);
+
+            return Ok(result);
+        }
+
     }
 }
