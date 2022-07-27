@@ -8,7 +8,8 @@ namespace PersonalFinanceApp.Database.Entities
 
     public class TransactionEntity
     {
-        public int Id { get; set; }
+        
+        public string Id { get; set; }
         public string Beneficiary_Name { get; set; }
 
         public DateTime Date { get; set; }

@@ -52,8 +52,8 @@ namespace PersonalFinanceApp.Migrations
                     b.Property<string>("Categorycode")
                         .HasColumnType("text");
 
-                    b.Property<int?>("TransactionId")
-                        .HasColumnType("integer");
+                    b.Property<string>("TransactionId")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -66,11 +66,8 @@ namespace PersonalFinanceApp.Migrations
 
             modelBuilder.Entity("PersonalFinanceApp.Database.Entities.TransactionEntity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<float>("Amount")
                         .HasColumnType("real");

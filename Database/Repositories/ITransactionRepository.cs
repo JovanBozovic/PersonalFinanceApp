@@ -18,5 +18,6 @@ namespace PersonalFinanceApp.Database.Repositories
         Task<TransactionEntity> Categorize(TransactionEntity transaction,string Catcode);
         Task<CategorySpendingList> GetAnalytics(DateTime startDate, DateTime endDate, string direction=null, string Catcode=null);
         Task<bool> SplitTransaction(string Id, SplitTransactionCommand splitTransactionCommand);
+        Task<List<TransactionEntity>> AutoCategorize();
     }
 }

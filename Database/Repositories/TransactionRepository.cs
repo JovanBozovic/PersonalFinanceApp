@@ -54,7 +54,7 @@ namespace PersonalFinanceApp.Database.Repositories
 
         public async Task<TransactionEntity> Get(int Id)
         {
-            return await _dbContext.Transactions.FirstOrDefaultAsync(p => p.Id == Id);
+            return await _dbContext.Transactions.FirstOrDefaultAsync(p => p.Id == Id.ToString());
         }
 
 
@@ -207,8 +207,8 @@ namespace PersonalFinanceApp.Database.Repositories
             var query = _dbContext.Transactions.Include(t => t.SplitTransactions).AsNoTracking().AsQueryable();
 
             var categoryQuery = _dbContext.Categories.AsQueryable().AsNoTracking();
-            var intId=Int32.Parse(Id);
-            var transaction = query.Where(t => t.Id == intId).FirstOrDefault();
+            // var intId=Int32.Parse(Id);
+            var transaction = query.Where(t => t.Id == Id).FirstOrDefault();
             // var modId=Id+splitTransactionCommand.splits.First().Catcode;
 
 
@@ -237,7 +237,7 @@ namespace PersonalFinanceApp.Database.Repositories
                 {
                     SplittedTransactionsList.Add(new SplitTransactionEntity
                     {
-                        Id = Id+splitTransaction.Catcode,
+                        Id = Id,
                         Catcode = splitTransaction.Catcode,
                         Amount = splitTransaction.Amount
                     });
@@ -251,7 +251,7 @@ namespace PersonalFinanceApp.Database.Repositories
                     return false;
                 }
             }
-            if (transaction.Amount == SplittedTransactionsAmount)
+            if (transaction.Amount >= SplittedTransactionsAmount)
             {
                 foreach(var SplitTransaction in SplittedTransactionsList){
                     _dbContext.Add(SplitTransaction);
@@ -266,6 +266,15 @@ namespace PersonalFinanceApp.Database.Repositories
                 return false;
             }
 
+        }
+
+        public Task<List<TransactionEntity>> AutoCategorize()
+        {
+            // var Transactions=_dbContext.Transactions.AsQueryable();
+            // Transactions=Transactions.Where(q=>q.Catcode==null);
+            
+
+            throw new NotImplementedException();
         }
     }
 }
