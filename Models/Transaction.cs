@@ -24,5 +24,6 @@ namespace PersonalFinanceApp.Models
 
         public string Kind { get; set; }
         public string Catcode {get;set;}
+        public List<SplitTransactionEntity> SplitTransactions { get; set;}
     }
 }

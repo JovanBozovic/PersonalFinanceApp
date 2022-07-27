@@ -50,6 +50,7 @@ namespace PersonalFinanceApp.Services
         public async Task<Models.Transaction> GetTransaction(int Id)
         {
             var transactionEntity = await _transactionRepository.Get(Id);
+            // transactionEntity.SplitTransactions=
 
             if (transactionEntity == null)
             {
@@ -110,6 +111,11 @@ namespace PersonalFinanceApp.Services
             var result = await _transactionRepository.SplitTransaction(Id, command);
             
             return result;
+        }
+
+        public Task<List<Transaction>> AutoCategorize()
+        {
+            throw new NotImplementedException();
         }
     }
 }

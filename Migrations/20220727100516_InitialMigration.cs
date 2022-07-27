@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -52,7 +53,9 @@ namespace PersonalFinanceApp.Migrations
                 name: "SplittedTransactions",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Transaction_Id = table.Column<string>(type: "text", nullable: true),
                     Catcode = table.Column<string>(type: "text", nullable: true),
                     Amount = table.Column<double>(type: "double precision", nullable: false),
                     TransactionId = table.Column<string>(type: "text", nullable: true),

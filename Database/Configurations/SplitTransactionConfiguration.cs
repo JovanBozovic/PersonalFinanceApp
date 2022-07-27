@@ -10,8 +10,11 @@ namespace PersonalFinanceApp.Database.Configurations
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<SplitTransactionEntity> builder)
         {
             builder.ToTable("split_transactions");
-            builder.HasOne(p => p.Category).WithMany(b => b.SplitTransactions).HasForeignKey(p => p.Catcode);
-            builder.HasOne(p => p.Transaction).WithMany(b => b.SplitTransactions).HasForeignKey(p => p.Id).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(p => p.Category).WithMany(b => b.SplitTransactions)
+            .HasForeignKey(p => p.Catcode);
+            builder.HasOne(p => p.Transaction).WithMany(b => b.SplitTransactions)
+            .HasForeignKey(p => p.Transaction_Id).OnDelete(DeleteBehavior.Cascade);
+            builder.HasKey(p=>p.Id);
             
             // builder.Property(x=>x.Id).IsRequired();
             // builder.Property(x=>x.Catcode).IsRequired();

@@ -54,7 +54,8 @@ namespace PersonalFinanceApp.Database.Repositories
 
         public async Task<TransactionEntity> Get(int Id)
         {
-            return await _dbContext.Transactions.FirstOrDefaultAsync(p => p.Id == Id.ToString());
+            var transaction=_dbContext.Transactions.FirstOrDefaultAsync(p => p.Id == Id.ToString());
+            return await transaction;
         }
 
 
@@ -221,7 +222,8 @@ namespace PersonalFinanceApp.Database.Repositories
             if (transaction.SplitTransactions.Any())
             {
                 _dbContext.SplittedTransactions.RemoveRange(transaction.SplitTransactions);
-                transaction.SplitTransactions=null;
+               
+                // transaction.SplitTransactions=null;
                 await _dbContext.SaveChangesAsync();
             }
 
@@ -237,7 +239,8 @@ namespace PersonalFinanceApp.Database.Repositories
                 {
                     SplittedTransactionsList.Add(new SplitTransactionEntity
                     {
-                        Id = Id,
+                        // Id=splitTransaction.Catcode+splitTransaction.TransactionId+splitTransaction.Amount.ToString(),
+                        Transaction_Id = transaction.Id,
                         Catcode = splitTransaction.Catcode,
                         Amount = splitTransaction.Amount
                     });
@@ -254,10 +257,19 @@ namespace PersonalFinanceApp.Database.Repositories
             if (transaction.Amount >= SplittedTransactionsAmount)
             {
                 foreach(var SplitTransaction in SplittedTransactionsList){
+
+                    // if (_dbContext.SplittedTransactions.Where(t=>t.Id==Id).Any()){
+                    //     var removeSplit=_dbContext.SplittedTransactions.Where(t=>t.Id==Id);
+                    //     Console.WriteLine(removeSplit);
+                    //     _dbContext.RemoveRange(removeSplit);
+                    // }
+
                     _dbContext.Add(SplitTransaction);
+                    transaction.SplitTransactions.Add(SplitTransaction);
                     await _dbContext.SaveChangesAsync();
                 }
                 transaction.SplitTransactions=SplittedTransactionsList;
+                _dbContext.Update(transaction);
                 await _dbContext.SaveChangesAsync();
 
 

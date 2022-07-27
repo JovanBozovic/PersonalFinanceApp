@@ -12,8 +12,8 @@ using PersonalFinanceApp.Database;
 namespace PersonalFinanceApp.Migrations
 {
     [DbContext(typeof(TransactionsDbContext))]
-    [Migration("20220726085017_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220727100924_migration1")]
+    partial class migration1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,8 +42,11 @@ namespace PersonalFinanceApp.Migrations
 
             modelBuilder.Entity("PersonalFinanceApp.Database.Entities.SplitTransactionEntity", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
 
                     b.Property<double>("Amount")
                         .HasColumnType("double precision");
@@ -55,6 +58,9 @@ namespace PersonalFinanceApp.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("TransactionId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Transaction_Id")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

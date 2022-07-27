@@ -7,7 +7,7 @@ namespace PersonalFinanceApp.Database.Entities
     public class SplitTransactionEntity
     {
         
-        public string Id { get; set; }
+        public int Id { get; set; }
         [ForeignKey("Id")]
         public string Transaction_Id {get;set;}
 
