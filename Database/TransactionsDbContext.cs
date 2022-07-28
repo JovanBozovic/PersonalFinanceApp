@@ -11,6 +11,7 @@ namespace PersonalFinanceApp.Database
         public DbSet<TransactionEntity> Transactions { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<SplitTransactionEntity> SplittedTransactions { get; set; }
+        public DbSet<RuleEntity> Rules { get; set; }
 
         public TransactionsDbContext()
         {
@@ -27,6 +28,7 @@ namespace PersonalFinanceApp.Database
 
             {
                 modelBuilder.Entity<TransactionEntity>();
+                modelBuilder.Entity<RuleEntity>().HasKey(x=>x.Id);
                 modelBuilder.Entity<SplitTransactionEntity>();
                 modelBuilder.Entity<CategoryEntity>().HasKey(x=>x.code);
                 

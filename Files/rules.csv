@@ -1,0 +1,10 @@
+predicate,catcode
+Mcc==5811,39
+beneficiary-name LIKE '%chevron%' OR beneficiary-name LIKE '%shell%',4
+mcc=5499,38
+mcc=7523,5
+mcc=5655,50
+mcc=5192,23
+mcc=8299,17
+description LIKE '%bill%' OR description LIKE '%Utilities%',C
+mcc=7519,B

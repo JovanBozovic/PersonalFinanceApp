@@ -10,6 +10,7 @@ using System.Data;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using System.Transactions;
 
 namespace PersonalFinanceApp
@@ -52,14 +53,22 @@ namespace PersonalFinanceApp
             builder.Services.AddDbContext<TransactionsDbContext>(options =>
             {
                 options.UseNpgsql(builder.Configuration.GetConnectionString("FinanceDb"));
-                  options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;  
             });
+
+    //         builder.Services.AddMvc()
+    //  .AddNewtonsoftJson(
+    //       options =>
+    //       {
+    //           options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+    //       });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -117,7 +126,7 @@ namespace PersonalFinanceApp
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 

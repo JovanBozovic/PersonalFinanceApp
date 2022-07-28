@@ -38,6 +38,25 @@ namespace PersonalFinanceApp.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("PersonalFinanceApp.Database.Entities.RuleEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("catcode")
+                        .HasColumnType("text");
+
+                    b.Property<string>("predicate")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Rules");
+                });
+
             modelBuilder.Entity("PersonalFinanceApp.Database.Entities.SplitTransactionEntity", b =>
                 {
                     b.Property<int>("Id")

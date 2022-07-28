@@ -96,3 +96,4 @@ C:\Users\Instructor\Desktop\Projekat\PersonalFinanceApp\PersonalFinanceApp\bin\D
 C:\Users\Instructor\Desktop\Projekat\PersonalFinanceApp\PersonalFinanceApp\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\Instructor\Desktop\Projekat\PersonalFinanceApp\PersonalFinanceApp\bin\Debug\net6.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
 C:\Users\Instructor\Desktop\Projekat\PersonalFinanceApp\PersonalFinanceApp\bin\Debug\net6.0\CsvHelper.dll
+C:\Users\Instructor\Desktop\Projekat\PersonalFinanceApp\PersonalFinanceApp\bin\Debug\net6.0\Newtonsoft.Json.dll

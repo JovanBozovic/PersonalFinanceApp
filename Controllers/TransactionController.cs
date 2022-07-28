@@ -88,6 +88,12 @@ namespace PersonalFinanceApp.Controllers
 
             return Ok(result);
         }
+        [HttpPost("api/transactions/auto-categorize")]
+        public async Task<ActionResult>AutoCategorizeTransactions()
+        {
+            var result=await _transactionService.AutoCategorize();
+            return Ok(result);
+        }
 
     }
 }

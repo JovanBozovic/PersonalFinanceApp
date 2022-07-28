@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "4GwikX9Hc39VbW+5qDosxZIlBr4l/o1H02zy20Way+CZjMXfmax5AKVg/64RNmxVlASSFToUw0Rn+2bf38xKhg==",
+  "dgSpecHash": "rvGi/GqXe4yWMJ71HWHdtzmGqczdhBCtSbmTCfcgSCWv/9R0AP3ENphkgX5KwVBGKg/Uw3E8G8qY2auYD89Kgg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp\\PersonalFinanceApp.csproj",
   "expectedPackageFiles": [
@@ -39,6 +39,7 @@
     "C:\\Users\\Instructor\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Instructor\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\Instructor\\.nuget\\packages\\mysqlconnector\\2.1.2\\mysqlconnector.2.1.2.nupkg.sha512",
+    "C:\\Users\\Instructor\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\Instructor\\.nuget\\packages\\npgsql\\6.0.5\\npgsql.6.0.5.nupkg.sha512",
     "C:\\Users\\Instructor\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\6.0.5\\npgsql.entityframeworkcore.postgresql.6.0.5.nupkg.sha512",
     "C:\\Users\\Instructor\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\6.0.1\\pomelo.entityframeworkcore.mysql.6.0.1.nupkg.sha512",

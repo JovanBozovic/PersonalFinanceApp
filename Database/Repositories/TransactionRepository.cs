@@ -38,6 +38,19 @@ namespace PersonalFinanceApp.Database.Repositories
         }
 
 
+        public async Task<List<RuleEntity>> ImportRules(List<RuleEntity> rules)
+        {
+
+            foreach (var rule in rules)
+            {
+                    _dbContext.Rules.Add(rule);
+            }
+            await _dbContext.SaveChangesAsync();
+
+            return rules;
+        }
+
+
         public async Task<bool> Delete(int Id)
         {
             var transaction = await Get(Id);
@@ -54,7 +67,7 @@ namespace PersonalFinanceApp.Database.Repositories
 
         public async Task<TransactionEntity> Get(int Id)
         {
-            var transaction=_dbContext.Transactions.FirstOrDefaultAsync(p => p.Id == Id.ToString());
+            var transaction=_dbContext.Transactions.Include(x=>x.SplitTransactions).FirstOrDefaultAsync(p => p.Id == Id.ToString());
             return await transaction;
         }
 
@@ -264,12 +277,13 @@ namespace PersonalFinanceApp.Database.Repositories
                     //     _dbContext.RemoveRange(removeSplit);
                     // }
 
-                    _dbContext.Add(SplitTransaction);
+                    _dbContext.SplittedTransactions.Add(SplitTransaction);
                     transaction.SplitTransactions.Add(SplitTransaction);
-                    await _dbContext.SaveChangesAsync();
+                    _dbContext.Transactions.Update(transaction);
+                    // await _dbContext.SaveChangesAsync();
                 }
-                transaction.SplitTransactions=SplittedTransactionsList;
-                _dbContext.Update(transaction);
+                // transaction.SplitTransactions=SplittedTransactionsList;
+                
                 await _dbContext.SaveChangesAsync();
 
 
@@ -280,13 +294,110 @@ namespace PersonalFinanceApp.Database.Repositories
 
         }
 
-        public Task<List<TransactionEntity>> AutoCategorize()
+        public async Task AutoCategorize()
         {
-            // var Transactions=_dbContext.Transactions.AsQueryable();
-            // Transactions=Transactions.Where(q=>q.Catcode==null);
-            
 
-            throw new NotImplementedException();
+            var Rules=_dbContext.Rules.ToList();
+            var Transactions=_dbContext.Transactions.AsQueryable();
+            Transactions=Transactions.Where(q=>q.Catcode==null);
+            foreach(var rule in Rules)
+            {
+
+                if(rule.predicate.ToLower().StartsWith("mcc"))
+                {
+                    var mccValue=int.Parse(rule.predicate.Substring(rule.predicate.Length-4));
+                    var filterTransactions=Transactions.Where(q=>q.Mcc==mccValue);
+                    foreach(var Transaction in filterTransactions)
+                    {
+                        Transaction.Catcode=rule.catcode;
+                        _dbContext.Transactions.Update(Transaction);
+                        // await _dbContext.SaveChangesAsync();
+                    }
+                    await _dbContext.SaveChangesAsync();
+                    // _dbContext.Transactions.UpdateRange();
+                }
+                
+                if(rule.predicate.ToLower().StartsWith("beneficiary"))
+                {
+                    var benNames="";
+                    var count=0;
+                    for(int i=0;i<rule.predicate.Length;i++)
+                    {
+                        if(rule.predicate.Substring(i,1)=="%")
+                        {
+                            count+=1;
+                            if(count%2==0)
+                            {
+                                benNames+=",";
+                            }
+                        }
+                        if(count%2==1 && rule.predicate.Substring(i,1)!="%")
+                        {
+                            benNames+=rule.predicate.Substring(i,1);
+                        }
+
+                    }
+                    var benNamesList=benNames.Split(",").ToList();
+                    benNamesList.RemoveAt(benNamesList.Count-1);
+                    
+                    foreach(var name in benNamesList)
+                    {
+                        var filterTransactions=Transactions.Where(t=>t.Beneficiary_Name.Contains(name));
+                        foreach(var transaction in filterTransactions)
+                        {
+                            transaction.Catcode=rule.catcode;
+                            // await _dbContext.SaveChangesAsync();
+                            _dbContext.Transactions.Update(transaction);
+                        }
+                        await _dbContext.SaveChangesAsync();
+                        // _dbContext.Transactions.UpdateRange(filterTransactions);
+                    }
+                    
+                }
+                if(rule.predicate.ToLower().StartsWith("description"))
+                {
+                    var benNames="";
+                    var count=0;
+                    for(int i=0;i<rule.predicate.Length;i++)
+                    {
+                        if(rule.predicate.Substring(i,1)=="%")
+                        {
+                            count+=1;
+                            if(count%2==0)
+                            {
+                                benNames+=",";
+                            }
+                        }
+                        if(count%2==1 && rule.predicate.Substring(i,1)!="%")
+                        {
+                            benNames+=rule.predicate.Substring(i,1);
+                        }
+
+                    }
+                    var benNamesList=benNames.Split(",").ToList();
+                    benNamesList.RemoveAt(benNamesList.Count-1);
+                    
+                    foreach(var name in benNamesList)
+                    {
+                        var filterTransactions=Transactions.Where(t=>t.Description.Contains(name));
+                        foreach(var transaction in filterTransactions)
+                        {
+                            transaction.Catcode=rule.catcode;
+                            _dbContext.Transactions.Update(transaction);
+                            // await _dbContext.SaveChangesAsync();
+                        }
+                        await _dbContext.SaveChangesAsync();
+                    }
+                }
+                // _dbContext.Transactions.UpdateRange();
+                // Console.WriteLine(Transactions.Count());
+                // await _dbContext.SaveChangesAsync();
+            }
+            
+            await _dbContext.SaveChangesAsync();
         }
+
+        
     }
+    
 }

@@ -113,9 +113,32 @@ namespace PersonalFinanceApp.Services
             return result;
         }
 
-        public Task<List<Transaction>> AutoCategorize()
+        public async Task<bool> AutoCategorize()
         {
-            throw new NotImplementedException();
+            await ImportRules();
+            await _transactionRepository.AutoCategorize();
+            return true;
+            
+        }
+
+
+        public async Task<bool> ImportRules()
+        {
+
+            using (var streamReader = new StreamReader(@"C:\Users\Instructor\Desktop\Projekat\PersonalFinanceApp\PersonalFinanceApp\Files\rules.csv"))
+            {
+                using (var csvReader = new CsvReader(streamReader, System.Globalization.CultureInfo.InvariantCulture))
+                {
+                    // csvReader.Configuration.HeaderValidated=null;
+                    csvReader.Context.RegisterClassMap<RulesClassMap>();
+                    var ruleRecords = csvReader.GetRecords<RuleEntity>().ToList();
+                    Console.WriteLine(ruleRecords);
+                    var transactionEntity = await _transactionRepository.ImportRules(ruleRecords);
+                    return true;
+                }
+
+            }
+
         }
     }
 }

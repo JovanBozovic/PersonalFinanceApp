@@ -474,6 +474,15 @@
           "lib/net6.0/MySqlConnector.dll": {}
         }
       },
+      "Newtonsoft.Json/13.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
       "Npgsql/6.0.5": {
         "type": "package",
         "dependencies": {
@@ -1664,6 +1673,33 @@
         "mysqlconnector.nuspec"
       ]
     },
+    "Newtonsoft.Json/13.0.1": {
+      "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+      "type": "package",
+      "path": "newtonsoft.json/13.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "newtonsoft.json.13.0.1.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
     "Npgsql/6.0.5": {
       "sha512": "a11H5/b5yNTuFN0Ycjvb920oI6vQHadt6KhEMmcC7DfvsSHH8Z3wBam+CHmyWcfDxJJaxamcdBb8XA3BvqS4Kw==",
       "type": "package",
@@ -2344,6 +2380,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.7",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.7",
       "Microsoft.Extensions.DependencyInjection >= 6.0.0",
+      "Newtonsoft.Json >= 13.0.1",
       "Npgsql >= 6.0.5",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 6.0.5",
       "Pomelo.EntityFrameworkCore.MySql >= 6.0.1",
@@ -2356,11 +2393,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp\\PersonalFinanceApp.csproj",
+      "projectUniqueName": "C:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp\\PersonalFinanceApp.csproj",
       "projectName": "PersonalFinanceApp",
-      "projectPath": "c:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp\\PersonalFinanceApp.csproj",
+      "projectPath": "C:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp\\PersonalFinanceApp.csproj",
       "packagesPath": "C:\\Users\\Instructor\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp\\obj\\",
+      "outputPath": "C:\\Users\\Instructor\\Desktop\\Projekat\\PersonalFinanceApp\\PersonalFinanceApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Instructor\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -2414,6 +2451,10 @@
           "Microsoft.Extensions.DependencyInjection": {
             "target": "Package",
             "version": "[6.0.0, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.1, )"
           },
           "Npgsql": {
             "target": "Package",

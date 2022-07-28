@@ -12,8 +12,8 @@ using PersonalFinanceApp.Database;
 namespace PersonalFinanceApp.Migrations
 {
     [DbContext(typeof(TransactionsDbContext))]
-    [Migration("20220727100924_migration1")]
-    partial class migration1
+    [Migration("20220728121504_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,6 +38,25 @@ namespace PersonalFinanceApp.Migrations
                     b.HasKey("code");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("PersonalFinanceApp.Database.Entities.RuleEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("catcode")
+                        .HasColumnType("text");
+
+                    b.Property<string>("predicate")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Rules");
                 });
 
             modelBuilder.Entity("PersonalFinanceApp.Database.Entities.SplitTransactionEntity", b =>

@@ -15,6 +15,7 @@ namespace PersonalFinanceApp.Services
         Task<Models.Transaction> CategorizeTransaction(int Id, string Catcode);
         Task<CategorySpendingList> GetAnalytics(DateTime startDate,DateTime endDate,string direction,string Catcode=null);
         Task<bool> SplitTransaction(string Id,SplitTransactionCommand command);
-        Task<List<Models.Transaction>>AutoCategorize();
+        Task<bool>AutoCategorize();
+        Task<bool> ImportRules();
     }
 }
