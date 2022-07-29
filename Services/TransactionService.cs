@@ -140,5 +140,10 @@ namespace PersonalFinanceApp.Services
             }
 
         }
+
+        public void ExportTransactions()
+        {
+            _transactionRepository.ExportTransactions();
+        }
     }
 }

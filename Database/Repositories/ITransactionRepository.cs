@@ -21,5 +21,6 @@ namespace PersonalFinanceApp.Database.Repositories
         Task AutoCategorize();
 
         Task<List<RuleEntity>> ImportRules(List<RuleEntity> rules);
+        void ExportTransactions();
     }
 }

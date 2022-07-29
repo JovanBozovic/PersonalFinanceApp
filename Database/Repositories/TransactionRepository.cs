@@ -1,5 +1,6 @@
 #nullable disable
 
+using CsvHelper;
 using Microsoft.EntityFrameworkCore;
 using PersonalFinanceApp.Commands;
 using PersonalFinanceApp.Database.Entities;
@@ -43,7 +44,7 @@ namespace PersonalFinanceApp.Database.Repositories
 
             foreach (var rule in rules)
             {
-                    _dbContext.Rules.Add(rule);
+                _dbContext.Rules.Add(rule);
             }
             await _dbContext.SaveChangesAsync();
 
@@ -67,7 +68,7 @@ namespace PersonalFinanceApp.Database.Repositories
 
         public async Task<TransactionEntity> Get(int Id)
         {
-            var transaction=_dbContext.Transactions.Include(x=>x.SplitTransactions).FirstOrDefaultAsync(p => p.Id == Id.ToString());
+            var transaction = _dbContext.Transactions.Include(x => x.SplitTransactions).FirstOrDefaultAsync(p => p.Id == Id.ToString());
             return await transaction;
         }
 
@@ -75,7 +76,7 @@ namespace PersonalFinanceApp.Database.Repositories
 
         public async Task<PagedSortedList<TransactionEntity>> ListTransactions(int page = 1, int pageSize = 5, string sortBy = null, SortingOrder sortOrder = SortingOrder.Asc, List<string> transaction_kinds = null, DateTime? StartDate = null, DateTime? EndDate = null)
         {
-            var query = _dbContext.Transactions.Include(q=>q.SplitTransactions).AsQueryable();
+            var query = _dbContext.Transactions.Include(q => q.SplitTransactions).AsQueryable();
 
             // var query= query2;
             if (StartDate != DateTime.MinValue)
@@ -235,16 +236,16 @@ namespace PersonalFinanceApp.Database.Repositories
             if (transaction.SplitTransactions.Any())
             {
                 _dbContext.SplittedTransactions.RemoveRange(transaction.SplitTransactions);
-               
+
                 // transaction.SplitTransactions=null;
                 await _dbContext.SaveChangesAsync();
             }
 
 
-            
-            transaction.Catcode="Z";  
+
+            transaction.Catcode = "Z";
             double SplittedTransactionsAmount = 0;
-            List<SplitTransactionEntity> SplittedTransactionsList=new List<SplitTransactionEntity>{};
+            List<SplitTransactionEntity> SplittedTransactionsList = new List<SplitTransactionEntity> { };
             foreach (var splitTransaction in splitTransactionCommand.splits)
             {
                 SplittedTransactionsAmount += splitTransaction.Amount;
@@ -263,13 +264,16 @@ namespace PersonalFinanceApp.Database.Repositories
                     //     Catcode = splitTransaction.Catcode,
                     //     Amount = splitTransaction.Amount
                     // });
-                }else{
+                }
+                else
+                {
                     return false;
                 }
             }
             if (transaction.Amount >= SplittedTransactionsAmount)
             {
-                foreach(var SplitTransaction in SplittedTransactionsList){
+                foreach (var SplitTransaction in SplittedTransactionsList)
+                {
 
                     // if (_dbContext.SplittedTransactions.Where(t=>t.Id==Id).Any()){
                     //     var removeSplit=_dbContext.SplittedTransactions.Where(t=>t.Id==Id);
@@ -283,12 +287,14 @@ namespace PersonalFinanceApp.Database.Repositories
                     // await _dbContext.SaveChangesAsync();
                 }
                 // transaction.SplitTransactions=SplittedTransactionsList;
-                
+
                 await _dbContext.SaveChangesAsync();
 
 
                 return true;
-            }else{
+            }
+            else
+            {
                 return false;
             }
 
@@ -297,92 +303,92 @@ namespace PersonalFinanceApp.Database.Repositories
         public async Task AutoCategorize()
         {
 
-            var Rules=_dbContext.Rules.ToList();
-            var Transactions=_dbContext.Transactions.AsQueryable();
-            Transactions=Transactions.Where(q=>q.Catcode==null);
-            foreach(var rule in Rules)
+            var Rules = _dbContext.Rules.ToList();
+            var Transactions = _dbContext.Transactions.AsQueryable();
+            Transactions = Transactions.Where(q => q.Catcode == null);
+            foreach (var rule in Rules)
             {
 
-                if(rule.predicate.ToLower().StartsWith("mcc"))
+                if (rule.predicate.ToLower().StartsWith("mcc"))
                 {
-                    var mccValue=int.Parse(rule.predicate.Substring(rule.predicate.Length-4));
-                    var filterTransactions=Transactions.Where(q=>q.Mcc==mccValue);
-                    foreach(var Transaction in filterTransactions)
+                    var mccValue = int.Parse(rule.predicate.Substring(rule.predicate.Length - 4));
+                    var filterTransactions = Transactions.Where(q => q.Mcc == mccValue);
+                    foreach (var Transaction in filterTransactions)
                     {
-                        Transaction.Catcode=rule.catcode;
+                        Transaction.Catcode = rule.catcode;
                         _dbContext.Transactions.Update(Transaction);
                         // await _dbContext.SaveChangesAsync();
                     }
                     await _dbContext.SaveChangesAsync();
                     // _dbContext.Transactions.UpdateRange();
                 }
-                
-                if(rule.predicate.ToLower().StartsWith("beneficiary"))
+
+                if (rule.predicate.ToLower().StartsWith("beneficiary"))
                 {
-                    var benNames="";
-                    var count=0;
-                    for(int i=0;i<rule.predicate.Length;i++)
+                    var benNames = "";
+                    var count = 0;
+                    for (int i = 0; i < rule.predicate.Length; i++)
                     {
-                        if(rule.predicate.Substring(i,1)=="%")
+                        if (rule.predicate.Substring(i, 1) == "%")
                         {
-                            count+=1;
-                            if(count%2==0)
+                            count += 1;
+                            if (count % 2 == 0)
                             {
-                                benNames+=",";
+                                benNames += ",";
                             }
                         }
-                        if(count%2==1 && rule.predicate.Substring(i,1)!="%")
+                        if (count % 2 == 1 && rule.predicate.Substring(i, 1) != "%")
                         {
-                            benNames+=rule.predicate.Substring(i,1);
+                            benNames += rule.predicate.Substring(i, 1);
                         }
 
                     }
-                    var benNamesList=benNames.Split(",").ToList();
-                    benNamesList.RemoveAt(benNamesList.Count-1);
-                    
-                    foreach(var name in benNamesList)
+                    var benNamesList = benNames.Split(",").ToList();
+                    benNamesList.RemoveAt(benNamesList.Count - 1);
+
+                    foreach (var name in benNamesList)
                     {
-                        var filterTransactions=Transactions.Where(t=>t.Beneficiary_Name.Contains(name));
-                        foreach(var transaction in filterTransactions)
+                        var filterTransactions = Transactions.Where(t => t.Beneficiary_Name.Contains(name));
+                        foreach (var transaction in filterTransactions)
                         {
-                            transaction.Catcode=rule.catcode;
+                            transaction.Catcode = rule.catcode;
                             // await _dbContext.SaveChangesAsync();
                             _dbContext.Transactions.Update(transaction);
                         }
                         await _dbContext.SaveChangesAsync();
                         // _dbContext.Transactions.UpdateRange(filterTransactions);
                     }
-                    
+
                 }
-                if(rule.predicate.ToLower().StartsWith("description"))
+                if (rule.predicate.ToLower().StartsWith("description"))
                 {
-                    var benNames="";
-                    var count=0;
-                    for(int i=0;i<rule.predicate.Length;i++)
+                    var benNames = "";
+                    var count = 0;
+                    for (int i = 0; i < rule.predicate.Length; i++)
                     {
-                        if(rule.predicate.Substring(i,1)=="%")
+                        if (rule.predicate.Substring(i, 1) == "%")
                         {
-                            count+=1;
-                            if(count%2==0)
+                            count += 1;
+                            if (count % 2 == 0)
                             {
-                                benNames+=",";
+                                benNames += ",";
                             }
                         }
-                        if(count%2==1 && rule.predicate.Substring(i,1)!="%")
+                        if (count % 2 == 1 && rule.predicate.Substring(i, 1) != "%")
                         {
-                            benNames+=rule.predicate.Substring(i,1);
+                            benNames += rule.predicate.Substring(i, 1);
                         }
 
                     }
-                    var benNamesList=benNames.Split(",").ToList();
-                    benNamesList.RemoveAt(benNamesList.Count-1);
-                    
-                    foreach(var name in benNamesList)
+                    var benNamesList = benNames.Split(",").ToList();
+                    benNamesList.RemoveAt(benNamesList.Count - 1);
+
+                    foreach (var name in benNamesList)
                     {
-                        var filterTransactions=Transactions.Where(t=>t.Description.Contains(name));
-                        foreach(var transaction in filterTransactions)
+                        var filterTransactions = Transactions.Where(t => t.Description.Contains(name));
+                        foreach (var transaction in filterTransactions)
                         {
-                            transaction.Catcode=rule.catcode;
+                            transaction.Catcode = rule.catcode;
                             _dbContext.Transactions.Update(transaction);
                             // await _dbContext.SaveChangesAsync();
                         }
@@ -393,11 +399,21 @@ namespace PersonalFinanceApp.Database.Repositories
                 // Console.WriteLine(Transactions.Count());
                 // await _dbContext.SaveChangesAsync();
             }
-            
+
             await _dbContext.SaveChangesAsync();
         }
 
-        
+        public void ExportTransactions()
+        {
+            using (var streamReader = new StreamWriter(@"C:\Users\Instructor\Desktop\Projekat\PersonalFinanceApp\PersonalFinanceApp\Files\transactionsForML.csv"))
+            {
+                using (var csv = new CsvWriter( streamReader, System.Globalization.CultureInfo.InvariantCulture))
+                {
+                    csv.WriteRecords(_dbContext.Transactions);
+                }
+            }
+            
+        }
     }
-    
+
 }

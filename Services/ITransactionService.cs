@@ -17,5 +17,6 @@ namespace PersonalFinanceApp.Services
         Task<bool> SplitTransaction(string Id,SplitTransactionCommand command);
         Task<bool>AutoCategorize();
         Task<bool> ImportRules();
+        void ExportTransactions();
     }
 }

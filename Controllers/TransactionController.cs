@@ -94,6 +94,11 @@ namespace PersonalFinanceApp.Controllers
             var result=await _transactionService.AutoCategorize();
             return Ok(result);
         }
+        [HttpPost("api/transactions/export")]
+        public void ExportTransactions()
+        {
+            _transactionService.ExportTransactions();
 
+        }
     }
 }
