@@ -25,6 +25,7 @@ namespace PersonalFinanceApp.Controllers
         [HttpGet("api/transactions")]
         public async Task<IActionResult> GetTransactions([FromQuery] int? page, [FromQuery] int? pageSize, [FromQuery] string sortBy, [FromQuery] SortingOrder sortingOrder, [FromQuery] List<string> transaction_kinds, [FromQuery] DateTime StartDate, [FromQuery] DateTime EndDate)
         {
+            
             page = page ?? 1;
             pageSize = pageSize ?? 10;
             _logger.LogInformation("Returning {page}. page of products", page);

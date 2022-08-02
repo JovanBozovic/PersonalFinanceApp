@@ -68,7 +68,8 @@ namespace PersonalFinanceApp.Database.Repositories
 
         public async Task<TransactionEntity> Get(int Id)
         {
-            var transaction = _dbContext.Transactions.Include(x => x.SplitTransactions).FirstOrDefaultAsync(p => p.Id == Id.ToString());
+            var transaction = _dbContext.Transactions.FirstOrDefaultAsync(p => p.Id == Id.ToString());
+            //Include(x => x.SplitTransactions).
             return await transaction;
         }
 

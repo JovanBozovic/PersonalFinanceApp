@@ -12,6 +12,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using System.Transactions;
+using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace PersonalFinanceApp
 {
@@ -20,28 +22,6 @@ namespace PersonalFinanceApp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
-
-            // string csv_file_path = @"C:\Users\Instructor\Desktop\Projekat\PersonalFinanceApp\PersonalFinanceApp\Files\transactions.csv";
-            // DataTable csvTransactionsData = GetDataTableFromCSVFile(csv_file_path);
-
-            // var transactions = csvTransactionsData.AsEnumerable().Select(row => new Transaction 
-            // {
-            //     Id = row.Field<int>("id"),
-            //     Beneficiary_Name = row.Field<string>("beneficiary-name"),
-            //     Date = row.Field<DateTime>("date"),
-            //     Direction = row.Field<string>("direction"),
-            //     Amount = row.Field<float>("amount"),
-            //     Description = row.Field<string>("description"),
-            //     Currency = row.Field<string>("currency"),
-            //     Mcc = row.Field<int>("mcc"),
-            //     Kind = row.Field<string>("kind"),
-            // });
-            // id,beneficiary-name,date,direction,amount,description,currency,mcc,kind
-            // Console.WriteLine("Rows count:" + csvData.Rows.Count);    
-            // Console.ReadLine();
-
 
             builder.Services.AddScoped<ITransactionService, TransactionService>();
             builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
@@ -56,26 +36,36 @@ namespace PersonalFinanceApp
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
+            var  MyAllowSpecificOrigins = "*";
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy  =>
+                      {
+                          policy.WithOrigins("https://http://localhost:4200/");
+                      });
+});
+
+
+
+
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;  
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             });
 
-    //         builder.Services.AddMvc()
-    //  .AddNewtonsoftJson(
-    //       options =>
-    //       {
-    //           options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-    //       });
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+            app.UseCors(MyAllowSpecificOrigins);
 
-            // Configure the HTTP request pipeline.
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -113,7 +103,6 @@ options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
                     while (!csvReader.EndOfData)
                     {
                         string[] fieldData = csvReader.ReadFields();
-                        //Making empty value as null
                         for (int i = 0; i < fieldData.Length; i++)
                         {
                             if (fieldData[i] == "")
@@ -163,5 +152,12 @@ options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             Console.WriteLine("Proba : " + builder.ConnectionString);
             return builder.ConnectionString;
         }
+        public static void Register(HttpConfiguration config)
+        {
+            var corsAttr = new EnableCorsAttribute("https://localhost:7170/", "*", "*");
+            config.EnableCors(corsAttr);
+        }
     }
+
 }
+
